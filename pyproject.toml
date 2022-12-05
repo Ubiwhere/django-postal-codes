@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-postal-codes"
+version = "0.0.1"
+authors = [
+  { name="Diogo Silva", email="diogosilv30@gmail.com" },
+]
+description = "A package that adds data-ready geographic APIs to your Django project"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/diogosilva30/django-postal-codes"
+"Bug Tracker" = "https://github.com/diogosilva30/django-postal-codes/issues"
