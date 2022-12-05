@@ -60,7 +60,6 @@ class Command(BaseCommand):
         """
         Imports data from a github repository and saves it in the database
         """
-        # TODO: Implement overwrite mechanism
         make: bool = options["make"]
 
         if make:
