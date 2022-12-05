@@ -1,8 +1,30 @@
 """
 Module containing the app models.
 """
+from shapely.ops import unary_union
+from shapely.geometry.multipolygon import MultiPolygon as ShapelyMultiPolygon
+import json
+import shapely
+from shapely import wkt
 from django.contrib.gis.db import models
 from django.utils.translation import gettext as _
+
+
+def compute_polygon_union(polygons) -> dict:
+    """
+    Computes the union of django polygons, and returns
+    the result as a GeoJSON multipolygon dictionary
+    """
+    # Convert to shapely polygons
+    polygons = [wkt.loads(obj.wkt) for obj in polygons]
+    merged = unary_union(polygons)
+
+    # Make sure it is MultiPolygon
+    if merged.geom_type == "Polygon":
+        merged = ShapelyMultiPolygon([merged])
+
+    # Return as geojson dictionary
+    return json.loads(json.dumps(shapely.geometry.mapping(merged)))
 
 
 class BaseModel(models.Model):
@@ -28,6 +50,9 @@ class Country(BaseModel):
         max_length=255,
         unique=True,
     )
+
+    class Meta:
+        ordering = ["name"]
 
 
 class District(BaseModel):
@@ -56,6 +81,9 @@ class District(BaseModel):
         String representation of this model.
         """
         return _(f"{self.name}")
+
+    class Meta:
+        ordering = ["country", "name"]
 
 
 class County(BaseModel):
@@ -86,6 +114,9 @@ class County(BaseModel):
         String representation of this model.
         """
         return _(f"{self.name}")
+
+    class Meta:
+        ordering = ["district", "name"]
 
 
 class Locality(BaseModel):
@@ -131,6 +162,9 @@ class Locality(BaseModel):
         String representation of this model.
         """
         return _(f"{self.name}")
+
+    class Meta:
+        ordering = ["county", "name"]
 
 
 class PostalCode(BaseModel):
@@ -250,3 +284,4 @@ class PostalCode(BaseModel):
     class Meta:
         verbose_name = _("Postal Code")
         verbose_name_plural = _("Postal Codes")
+        ordering = ["locality", "full_address"]

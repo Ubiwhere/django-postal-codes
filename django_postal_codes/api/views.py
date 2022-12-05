@@ -10,11 +10,21 @@ from django_postal_codes.models import Country, District, County, Locality, Post
 from django_postal_codes.api.serializers import PostalCodeSerializer
 
 from .serializers import (
+    # Country serializers
     CountrySerializer,
+    DetailCountrySerializer,
+    # District serializers
     DistrictSerializer,
+    DetailDistrictSerializer,
+    # County serializers
     CountySerializer,
+    DetailCountySerializer,
+    # Locality serializers
     LocalitySerializer,
+    DetailLocalitySerializer,
+    # Postal code serializers
     PostalCodeSerializer,
+    DetailPostalCodeSerializer,
 )
 from .filters import (
     CountryFilter,
@@ -25,11 +35,20 @@ from .filters import (
 )
 
 
-class CountryViewset(
+class BaseViewSet(
     viewsets.GenericViewSet,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    def get_serializer_class(self):
+
+        if hasattr(self, "action_serializers"):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super().get_serializer_class()
+
+
+class CountryViewset(BaseViewSet):
     """
     API endpoint to retrieve countries.
     """
@@ -40,12 +59,13 @@ class CountryViewset(
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = CountryFilter
 
+    action_serializers = {
+        "retrieve": DetailCountrySerializer,
+        "list": CountrySerializer,
+    }
 
-class DistrictViewset(
-    viewsets.GenericViewSet,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-):
+
+class DistrictViewset(BaseViewSet):
     """
     API endpoint to retrieve districts.
     """
@@ -58,21 +78,20 @@ class DistrictViewset(
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = DistrictFilter
 
+    action_serializers = {
+        "retrieve": DetailDistrictSerializer,
+        "list": DistrictSerializer,
+    }
 
-class CountyViewset(
-    viewsets.GenericViewSet,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-):
+
+class CountyViewset(BaseViewSet):
     """
     API endpoint to retrieve counties.
     """
 
     # Select upstream foreign keys and prefetch downstream related
-    queryset = (
-        County.objects.select_related("district__country")
-        .prefetch_related("localities")
-        .annotate(polygon=Union("localities__polygon"))
+    queryset = County.objects.select_related("district__country").prefetch_related(
+        "localities"
     )
 
     serializer_class = CountySerializer
@@ -80,12 +99,13 @@ class CountyViewset(
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = CountyFilter
 
+    action_serializers = {
+        "retrieve": DetailCountySerializer,
+        "list": CountySerializer,
+    }
 
-class LocalityViewset(
-    viewsets.GenericViewSet,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-):
+
+class LocalityViewset(BaseViewSet):
     """
     API endpoint to retrieve localities.
     """
@@ -97,18 +117,24 @@ class LocalityViewset(
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = LocalityFilter
 
+    action_serializers = {
+        "retrieve": DetailLocalitySerializer,
+        "list": LocalitySerializer,
+    }
 
-class PostalCodesViewSet(
-    viewsets.GenericViewSet,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-):
+
+class PostalCodesViewSet(BaseViewSet):
     """
     API endpoint to retrieve postal codes.
     """
 
-    queryset = PostalCode.objects.select_related("locality__county__district__country")
+    queryset = PostalCode.objects.all()
     serializer_class = PostalCodeSerializer
     permission_classes = [permissions.AllowAny]
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = PostalCodeFilter
+
+    action_serializers = {
+        "retrieve": DetailPostalCodeSerializer,
+        "list": PostalCodeSerializer,
+    }
