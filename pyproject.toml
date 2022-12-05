@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
   { name="Diogo Silva", email="diogosilv30@gmail.com" },
 ]
-description = "A package that adds data-ready geographic APIs to your Django project"
+description = "A package that adds data-ready geographic APIs to your project with administrative regions and postal codes of a country"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
