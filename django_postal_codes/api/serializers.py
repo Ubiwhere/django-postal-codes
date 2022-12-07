@@ -20,7 +20,7 @@ class CountrySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Country
-        fields = ["url", "name"]
+        fields = ["id", "url", "name"]
 
 
 class DetailCountrySerializer(CountrySerializer):
@@ -37,7 +37,7 @@ class DetailCountrySerializer(CountrySerializer):
 
     class Meta:
         model = Country
-        fields = ["url", "name", "created_on", "updated_on", "districts"]
+        fields = ["id", "url", "name", "created_on", "updated_on", "districts"]
 
 
 class DistrictSerializer(serializers.HyperlinkedModelSerializer):
@@ -54,7 +54,7 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = District
-        fields = ["url", "parent_url", "name"]
+        fields = ["id", "url", "parent_url", "name"]
 
 
 class DetailDistrictSerializer(DistrictSerializer):
@@ -88,6 +88,7 @@ class DetailDistrictSerializer(DistrictSerializer):
     class Meta:
         model = District
         fields = [
+            "id",
             "url",
             "parent_url",
             "country",
@@ -113,7 +114,7 @@ class CountySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = County
-        fields = ["url", "parent_url", "name"]
+        fields = ["id", "url", "parent_url", "name"]
 
 
 class DetailCountySerializer(CountySerializer):
@@ -147,6 +148,7 @@ class DetailCountySerializer(CountySerializer):
     class Meta:
         model = County
         fields = [
+            "id",
             "url",
             "parent_url",
             "country",
@@ -174,6 +176,7 @@ class LocalitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Locality
         fields = [
+            "id",
             "url",
             "parent_url",
             "name",
@@ -195,6 +198,7 @@ class DetailLocalitySerializer(LocalitySerializer):
     class Meta:
         model = Locality
         fields = [
+            "id",
             "url",
             "parent_url",
             "country",
@@ -231,7 +235,7 @@ class PostalCodeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = PostalCode
-        fields = ["url", "parent_url", "full_address", "full_postal_code"]
+        fields = ["id", "url", "parent_url", "full_address", "full_postal_code"]
 
 
 class DetailPostalCodeSerializer(PostalCodeSerializer):
