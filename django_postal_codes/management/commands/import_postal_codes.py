@@ -4,6 +4,7 @@ into the local database
 """
 import shutil
 import runpy
+import django_postal_codes
 from pathlib import Path
 from django.db import transaction
 from django.core.management import call_command
@@ -14,6 +15,7 @@ import glob
 # Check if user configured which countries data should be imported
 COUNTRIES_TO_IMPORT = getattr(settings, "DJANGO_POSTAL_CODES_COUNTRIES", None)
 
+BASE_DIR = Path(django_postal_codes.__file__).resolve().parent
 
 def load_country_fixture(fixture_folder: str) -> None:
     """
@@ -28,7 +30,7 @@ def load_country_fixture(fixture_folder: str) -> None:
     ]
     country_name: str = Path(fixture_folder).stem
     final_fixture_path: str = (
-        f"django_postal_codes/fixtures/{country_name}/MERGED_{country_name}.json"
+        f"{BASE_DIR}/fixtures/{country_name}/MERGED_{country_name}.json"
     )
     with open(final_fixture_path, "wb") as wfd:
         for f in file_parts:
@@ -66,7 +68,7 @@ class Command(BaseCommand):
             paths = [
                 path
                 for path in glob.glob(
-                    "django_postal_codes/data_pipelines/*",
+                    f"{BASE_DIR}/data_pipelines/*",
                     recursive=True,
                 )
                 if not Path(path).stem.startswith("__")
@@ -78,7 +80,7 @@ class Command(BaseCommand):
             # Import fixture into database
             paths = [
                 path
-                for path in glob.glob("django_postal_codes/fixtures/*")
+                for path in glob.glob(f"{BASE_DIR}/fixtures/*")
                 if not Path(path).stem.startswith("__")
             ]
             raise ValueError("Debug : ", paths)
