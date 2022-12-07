@@ -242,9 +242,10 @@ class DetailPostalCodeSerializer(PostalCodeSerializer):
     """
     Serializer class for a `PostalCode` in Detail view.
     """
+
     # Explicitly add id
     id = serializers.ReadOnlyField()
-    
+
     # Upstream fields
     country = serializers.ReadOnlyField(source="locality.county.district.country.name")
     district = serializers.ReadOnlyField(source="locality.county.district.name")
