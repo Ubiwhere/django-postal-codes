@@ -15,7 +15,7 @@ from django.contrib.gis.geos import MultiPolygon
 from tqdm import tqdm
 from django.contrib.gis.gdal import DataSource
 from django_postal_codes.models import District, PostalCode, County, Locality
-
+from django_postal_codes import BASE_DIR
 from ..base import CountryStrategy
 
 
@@ -31,13 +31,13 @@ class PortugalStrategy(CountryStrategy):
         super().__init__()
         # Read caop file
         self.caop_sheet = pd.read_excel(
-            "django_postal_codes/data_pipelines/portugal/caop2021.xls",
+            f"{BASE_DIR}/data_pipelines/portugal/caop2021.xls",
             sheet_name="Areas_Freguesias_CAOP2021",
         )
         # Load administrative regions from CAOP files
         self.features = [
             feature
-            for file in glob.glob("django_postal_codes/data/portugal/*.gpkg")
+            for file in glob.glob(f"{BASE_DIR}/data_pipelines/portugal/*.gpkg")
             for feature in DataSource(file)[0]
         ]
         # Load postal codes data

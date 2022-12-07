@@ -4,7 +4,7 @@ into the local database
 """
 import shutil
 import runpy
-import django_postal_codes
+from django_postal_codes import BASE_DIR
 from pathlib import Path
 from django.db import transaction
 from django.core.management import call_command
@@ -15,7 +15,6 @@ import glob
 # Check if user configured which countries data should be imported
 COUNTRIES_TO_IMPORT = getattr(settings, "DJANGO_POSTAL_CODES_COUNTRIES", None)
 
-BASE_DIR = Path(django_postal_codes.__file__).resolve().parent
 
 def load_country_fixture(fixture_folder: str) -> None:
     """
@@ -83,6 +82,5 @@ class Command(BaseCommand):
                 for path in glob.glob(f"{BASE_DIR}/fixtures/*")
                 if not Path(path).stem.startswith("__")
             ]
-            raise ValueError("Debug : ", paths)
             for pth in paths:
                 load_country_fixture(pth)
