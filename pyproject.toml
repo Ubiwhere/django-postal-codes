@@ -1,6 +1,7 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 
 [project]
 name = "django-postal-codes"
@@ -16,7 +17,11 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dynamic = ["dependencies"]
 
 [project.urls]
 "Homepage" = "https://github.com/diogosilva30/django-postal-codes"
 "Bug Tracker" = "https://github.com/diogosilva30/django-postal-codes/issues"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}

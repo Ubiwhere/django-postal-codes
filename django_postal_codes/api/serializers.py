@@ -1,7 +1,7 @@
 """
 Module containing API serializers.
 """
-
+from django.contrib.gis.geos import MultiPolygon
 from rest_framework import serializers
 from django_postal_codes.models import (
     Country,
@@ -76,7 +76,7 @@ class DetailDistrictSerializer(DistrictSerializer):
     # of all counties
     polygon = serializers.SerializerMethodField(read_only=True)
 
-    def get_polygon(self, obj: County):
+    def get_polygon(self, obj: County) -> MultiPolygon:
         """
         Computes the polygon of `County` from the union of all
         child `Locality` polygons.
@@ -135,7 +135,7 @@ class DetailCountySerializer(CountySerializer):
     # Compute polygon of county by merging all localities polygons
     polygon = serializers.SerializerMethodField(read_only=True)
 
-    def get_polygon(self, obj: County):
+    def get_polygon(self, obj: County) -> MultiPolygon:
         """
         Computes the polygon of `County` from the union of all
         child `Locality` polygons.
