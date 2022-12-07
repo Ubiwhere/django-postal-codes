@@ -81,5 +81,6 @@ class Command(BaseCommand):
                 for path in glob.glob("django_postal_codes/fixtures/*")
                 if not Path(path).stem.startswith("__")
             ]
+            raise ValueError("Debug : ", paths)
             for pth in paths:
                 load_country_fixture(pth)
