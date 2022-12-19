@@ -7,7 +7,7 @@ from django_postal_codes.api.views import (
     CountyViewset,
 )
 
-router = routers.DefaultRouter()
+router = routers.SimpleRouter()
 router.register(
     "postal-codes/countries",
     CountryViewset,
