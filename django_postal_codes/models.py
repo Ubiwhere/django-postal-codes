@@ -245,7 +245,7 @@ class PostalCode(BaseModel):
         """
         String representation of this model.
         """
-        return _(f"{self.full_address}")
+        return _(f"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self.full_address}")
 
     def get_full_address(self):
         """
