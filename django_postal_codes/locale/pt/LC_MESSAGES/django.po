@@ -102,10 +102,3 @@ msgstr "Morada completa"
 #: django_postal_codes/models.py:293
 msgid "Postal Codes"
 msgstr "Códigos Postais"
-
-#~ msgid ""
-#~ "{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / "
-#~ "{self.full_address}"
-#~ msgstr ""
-#~ "{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / "
-#~ "{self.full_address}"
