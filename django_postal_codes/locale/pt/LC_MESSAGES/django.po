@@ -69,7 +69,7 @@ msgstr "prep 1"
 
 #: django_postal_codes/models.py:202
 msgid "Artery title"
-msgstr "Titlo de artéria"
+msgstr "Título de artéria"
 
 #: django_postal_codes/models.py:208
 msgid "prep 2"
