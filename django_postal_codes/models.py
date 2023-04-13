@@ -7,8 +7,8 @@ import json
 import shapely
 from shapely import wkt
 from django.contrib.gis.db import models
-from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 
 
 def compute_polygon_union(polygons) -> dict:
@@ -47,7 +47,7 @@ class Country(BaseModel):
     """
 
     name = models.CharField(
-        verbose_name=gettext_lazy("Country"),
+        verbose_name=_("Country"),
         max_length=255,
         unique=True,
     )
@@ -64,24 +64,24 @@ class District(BaseModel):
     # Name of district
     name = models.CharField(
         max_length=255,
-        verbose_name=gettext_lazy("District"),
+        verbose_name=_("District"),
     )
 
     # country the district belongs too
     country = models.ForeignKey(
         Country,
-        verbose_name=gettext_lazy("Country that the district belongs to"),
+        verbose_name=_("Country that the district belongs to"),
         null=False,
         blank=False,
         on_delete=models.CASCADE,
         related_name="districts",
     )
 
-    def gettext_lazystrgettext_lazy(self) -> str:
+    def _str_(self) -> str:
         """
         String representation of this model.
         """
-        return _(f"{self.name}")
+        return gettext(f"{self.name}")
 
     class Meta:
         ordering = ["country", "name"]
@@ -95,7 +95,7 @@ class County(BaseModel):
     # county belongs to a district
     district = models.ForeignKey(
         District,
-        verbose_name=gettext_lazy("District that the county belongs to"),
+        verbose_name=_("District that the county belongs to"),
         null=False,
         blank=False,
         on_delete=models.CASCADE,
@@ -105,16 +105,16 @@ class County(BaseModel):
     # The name of the county
     name = models.CharField(
         max_length=255,
-        verbose_name=gettext_lazy("County"),
+        verbose_name=_("County"),
         null=False,
         blank=False,
     )
 
-    def gettext_lazystrgettext_lazy(self) -> str:
+    def str(self) -> str:
         """
         String representation of this model.
         """
-        return _(f"{self.name}")
+        return gettext(f"{self.name}")
 
     class Meta:
         ordering = ["district", "name"]
@@ -128,7 +128,7 @@ class Locality(BaseModel):
     # A locality belongs to a county
     county = models.ForeignKey(
         County,
-        verbose_name=gettext_lazy("County that the locality belongs to"),
+        verbose_name=_("County that the locality belongs to"),
         related_name="localities",
         null=False,
         blank=False,
@@ -136,13 +136,13 @@ class Locality(BaseModel):
     )
     name = models.CharField(
         max_length=255,
-        verbose_name=gettext_lazy("Locality"),
+        verbose_name=_("Locality"),
         null=False,
         blank=False,
     )
 
     polygon = models.MultiPolygonField(
-        verbose_name=gettext_lazy("Administrative region"),
+        verbose_name=_("Administrative region"),
         null=True,
         blank=True,
         geography=False,
@@ -158,11 +158,11 @@ class Locality(BaseModel):
 
         super().save(*args, **kwargs)
 
-    def gettext_lazystrgettext_lazy(self) -> str:
+    def str(self) -> str:
         """
         String representation of this model.
         """
-        return _(f"{self.name}")
+        return gettext(f"{self.name}")
 
     class Meta:
         ordering = ["county", "name"]
@@ -176,7 +176,7 @@ class PostalCode(BaseModel):
     # A postal code belongs to a specific locality
     locality = models.ForeignKey(
         Locality,
-        verbose_name=gettext_lazy(
+        verbose_name=_(
             "County that the postal code belongs too",
         ),
         null=False,
@@ -188,48 +188,48 @@ class PostalCode(BaseModel):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=gettext_lazy("Artery type"),
+        verbose_name=_("Artery type"),
     )
     prep1 = models.CharField(
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=gettext_lazy("prep 1"),
+        verbose_name=_("prep 1"),
     )
     artery_title = models.CharField(
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=gettext_lazy("Artery title"),
+        verbose_name=_("Artery title"),
     )
     prep2 = models.CharField(
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=gettext_lazy("prep 2"),
+        verbose_name=_("prep 2"),
     )
     artery_name = models.CharField(
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=gettext_lazy("Artery name"),
+        verbose_name=_("Artery name"),
     )
     artery_local = models.CharField(
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=gettext_lazy("Artery local"),
+        verbose_name=_("Artery local"),
     )
 
     postal_code = models.IntegerField(
-        verbose_name=gettext_lazy("Postal Code"),
+        verbose_name=_("Postal Code"),
         help_text="cp4",
         blank=True,
         null=False,
         db_index=True,
     )
     postal_code_extension = models.IntegerField(
-        verbose_name=gettext_lazy("Postal Code Extension"),
+        verbose_name=_("Postal Code Extension"),
         help_text="cp3",
         blank=True,
         null=False,
@@ -237,24 +237,22 @@ class PostalCode(BaseModel):
     )
     postal_designation = models.CharField(
         max_length=255,
-        verbose_name=gettext_lazy("Postal Designation"),
+        verbose_name=_("Postal Designation"),
         blank=True,
         null=True,
     )
 
     full_address = models.TextField(
-        verbose_name=gettext_lazy("Full address"),
+        verbose_name=_("Full address"),
         blank=True,
         null=False,
     )
 
-    def gettext_lazystrgettext_lazy(self) -> str:
+    def str(self) -> str:
         """
         String representation of this model.
         """
-        return _(
-            f"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self.full_address}"
-        )
+        return f"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self.full_address}"
 
     def get_full_address(self):
         """
@@ -291,6 +289,6 @@ class PostalCode(BaseModel):
         return super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = gettext_lazy("Postal Code")
-        verbose_name_plural = gettext_lazy("Postal Codes")
+        verbose_name = _("Postal Code")
+        verbose_name_plural = _("Postal Codes")
         ordering = ["locality", "full_address"]

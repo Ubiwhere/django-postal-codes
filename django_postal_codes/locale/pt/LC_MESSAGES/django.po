@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-13 20:25+0100\n"
+"POT-Creation-Date: 2023-04-13 21:39+0100\n"
 "PO-Revision-Date: 2023-04-13 14:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -83,7 +83,7 @@ msgstr "Nome de artéria"
 msgid "Artery local"
 msgstr "Local de artéria"
 
-#: django_postal_codes/models.py:225 django_postal_codes/models.py:294
+#: django_postal_codes/models.py:225 django_postal_codes/models.py:292
 msgid "Postal Code"
 msgstr "Código Postal"
 
@@ -99,14 +99,13 @@ msgstr "Designação postal"
 msgid "Full address"
 msgstr "Morada completa"
 
-#: django_postal_codes/models.py:256
-msgid ""
-"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self."
-"full_address}"
-msgstr ""
-"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self."
-"full_address}"
-
-#: django_postal_codes/models.py:295
+#: django_postal_codes/models.py:293
 msgid "Postal Codes"
 msgstr "Códigos Postais"
+
+#~ msgid ""
+#~ "{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / "
+#~ "{self.full_address}"
+#~ msgstr ""
+#~ "{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / "
+#~ "{self.full_address}"
