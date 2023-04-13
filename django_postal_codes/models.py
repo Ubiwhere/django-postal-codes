@@ -77,7 +77,7 @@ class District(BaseModel):
         related_name="districts",
     )
 
-    def _str_(self) -> str:
+    def __str__(self) -> str:
         """
         String representation of this model.
         """
@@ -110,7 +110,7 @@ class County(BaseModel):
         blank=False,
     )
 
-    def str(self) -> str:
+    def __str__(self) -> str:
         """
         String representation of this model.
         """
@@ -158,7 +158,7 @@ class Locality(BaseModel):
 
         super().save(*args, **kwargs)
 
-    def str(self) -> str:
+    def __str__(self) -> str:
         """
         String representation of this model.
         """
@@ -248,7 +248,7 @@ class PostalCode(BaseModel):
         null=False,
     )
 
-    def str(self) -> str:
+    def __str__(self) -> str:
         """
         String representation of this model.
         """
