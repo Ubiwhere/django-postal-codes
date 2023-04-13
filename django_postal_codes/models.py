@@ -187,31 +187,37 @@ class PostalCode(BaseModel):
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("Artery type"),
     )
     prep1 = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("prep 1"),
     )
     artery_title = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("Artery title"),
     )
     prep2 = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("prep 2"),
     )
     artery_name = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("Artery name"),
     )
     artery_local = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("Artery local"),
     )
 
     postal_code = models.IntegerField(
@@ -245,7 +251,9 @@ class PostalCode(BaseModel):
         """
         String representation of this model.
         """
-        return _(f"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self.full_address}")
+        return _(
+            f"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self.full_address}"
+        )
 
     def get_full_address(self):
         """
