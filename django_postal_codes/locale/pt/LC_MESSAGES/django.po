@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-13 21:39+0100\n"
+"POT-Creation-Date: 2023-04-13 21:58+0100\n"
 "PO-Revision-Date: 2023-04-13 14:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.2.2\n"
+
+#: django_postal_codes/apps.py:7 django_postal_codes/models.py:293
+msgid "Postal Codes"
+msgstr "Códigos Postais"
 
 #: django_postal_codes/models.py:50
 msgid "Country"
@@ -98,7 +102,3 @@ msgstr "Designação postal"
 #: django_postal_codes/models.py:246
 msgid "Full address"
 msgstr "Morada completa"
-
-#: django_postal_codes/models.py:293
-msgid "Postal Codes"
-msgstr "Códigos Postais"

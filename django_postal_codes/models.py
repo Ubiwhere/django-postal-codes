@@ -1,14 +1,15 @@
 """
 Module containing the app models.
 """
-from shapely.ops import unary_union
-from shapely.geometry.multipolygon import MultiPolygon as ShapelyMultiPolygon
 import json
+
 import shapely
-from shapely import wkt
 from django.contrib.gis.db import models
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
+from shapely import wkt
+from shapely.geometry.multipolygon import MultiPolygon as ShapelyMultiPolygon
+from shapely.ops import unary_union
 
 
 def compute_polygon_union(polygons) -> dict:
