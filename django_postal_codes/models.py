@@ -1,13 +1,15 @@
 """
 Module containing the app models.
 """
-from shapely.ops import unary_union
-from shapely.geometry.multipolygon import MultiPolygon as ShapelyMultiPolygon
 import json
+
 import shapely
-from shapely import wkt
 from django.contrib.gis.db import models
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
+from shapely import wkt
+from shapely.geometry.multipolygon import MultiPolygon as ShapelyMultiPolygon
+from shapely.ops import unary_union
 
 
 def compute_polygon_union(polygons) -> dict:
@@ -80,7 +82,7 @@ class District(BaseModel):
         """
         String representation of this model.
         """
-        return _(f"{self.name}")
+        return gettext(f"{self.name}")
 
     class Meta:
         ordering = ["country", "name"]
@@ -113,7 +115,7 @@ class County(BaseModel):
         """
         String representation of this model.
         """
-        return _(f"{self.name}")
+        return gettext(f"{self.name}")
 
     class Meta:
         ordering = ["district", "name"]
@@ -161,7 +163,7 @@ class Locality(BaseModel):
         """
         String representation of this model.
         """
-        return _(f"{self.name}")
+        return gettext(f"{self.name}")
 
     class Meta:
         ordering = ["county", "name"]
@@ -187,31 +189,37 @@ class PostalCode(BaseModel):
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("Artery type"),
     )
     prep1 = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("prep 1"),
     )
     artery_title = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("Artery title"),
     )
     prep2 = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("prep 2"),
     )
     artery_name = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("Artery name"),
     )
     artery_local = models.CharField(
         max_length=255,
         blank=True,
         null=True,
+        verbose_name=_("Artery local"),
     )
 
     postal_code = models.IntegerField(
@@ -245,7 +253,7 @@ class PostalCode(BaseModel):
         """
         String representation of this model.
         """
-        return _(f"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self.full_address}")
+        return f"{str(self.postal_code)}-{str(self.postal_code_extension).zfill(3)} / {self.full_address}"
 
     def get_full_address(self):
         """
