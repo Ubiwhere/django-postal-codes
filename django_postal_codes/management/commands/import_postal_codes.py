@@ -13,15 +13,15 @@ from django.core.management.base import BaseCommand
 import glob
 import subprocess
 
-# Check if user configured which countries data should be imported
+# Check if the user configured which countries' data should be imported
 COUNTRIES_TO_IMPORT = getattr(settings, "DJANGO_POSTAL_CODES_COUNTRIES", None)
 
 
 def load_country_fixture(fixture_folder: str) -> None:
     """
-    Receives a fixture folder path and rebuilds a json file from the existing
-    parts. The json is splitted so each part is under 100mb and can be added to source control.
-    To load fixture into django we need to glue the file back together
+    Receives a fixture folder path and rebuilds a JSON file from the existing
+    parts. The JSON is split so each part is under 100 MB and can be added to source control.
+    To load the fixture into Django, we need to glue the file back together
     """
     country_name: str = Path(fixture_folder).stem
     final_fixture_path: str = (
@@ -31,12 +31,12 @@ def load_country_fixture(fixture_folder: str) -> None:
     if os.path.exists(final_fixture_path):
         os.remove(final_fixture_path)
     with open(final_fixture_path, "w") as file:
-        # Call is needed to block execution until script ends
-        # otherwise django will start reading from file and it is not
-        # fully merged yet, resulting in error
+        # Call is needed to block execution until the script ends
+        # Otherwise, Django will start reading from the file, and it is not
+        # fully merged yet, resulting in an error
         subprocess.call(f"cat {fixture_folder}/*.json", stdout=file, shell=True)
 
-    # Now time to load into django
+    # Now time to load into Django
     # Use a single transaction to speed up loading
     # https://stackoverflow.com/questions/19306807/django-fixture-loading-very-slow
     with transaction.atomic():
@@ -54,12 +54,12 @@ class Command(BaseCommand):
             "--make",
             action=argparse.BooleanOptionalAction,
             default=False,
-            help="If True it will build a fixture for each country based on it's data pipeline",
+            help="If True, it will build a fixture for each country based on its data pipeline",
         )
 
     def handle(self, *args, **options):
         """
-        Imports data from a github repository and saves it in the database
+        Imports data from a GitHub repository and saves it in the database
         """
         make: bool = options["make"]
 
