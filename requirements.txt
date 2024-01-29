@@ -1,4 +1,4 @@
-django>=4.0,<4.2
+django>=4.1
 tqdm>=4.0,<5.0
 pandas>=1.5,<1.6
 joblib>=1.2,<1.3
